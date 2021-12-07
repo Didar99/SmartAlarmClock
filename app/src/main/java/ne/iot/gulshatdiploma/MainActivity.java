@@ -4,11 +4,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,10 +29,13 @@ public class MainActivity extends AppCompatActivity {
     View incLayout;
     String time_txt, time_txt2, time_txt3;
 
-
     TimePicker alarmTimePicker, alarmTimePicker2, alarmTimePicker3;
     PendingIntent pendingIntent, pendingIntent2, pendingIntent3;
     AlarmManager alarmManager, alarmManager2, alarmManager3;
+
+
+    private static final long INITIAL_ALARM_DELAY = 10 * 1000L;
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -59,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
         more3 = findViewById(R.id.more3);
         incLayout = findViewById(R.id.list);
 
-        alarmTimePicker = (TimePicker) findViewById(R.id.time_picker);
-        alarmTimePicker2 = (TimePicker) findViewById(R.id.time_picker2);
-        alarmTimePicker3 = (TimePicker) findViewById(R.id.time_picker3);
+        alarmTimePicker = findViewById(R.id.time_picker);
+        alarmTimePicker2 = findViewById(R.id.time_picker2);
+        alarmTimePicker3 = findViewById(R.id.time_picker3);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager2 = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager3 = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 //        } else if (state_sw3 == 0) {
 //            sw3.setChecked(false);
 //        }
+
 
         time.setOnClickListener(v -> {
             alarmTimePicker.setVisibility(View.VISIBLE);
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+
         more.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), MathActivity.class)));
         more2.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), QRCodeActivity.class)));
         more3.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ShakeActivity.class)));
@@ -153,6 +157,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // Alarm rings continuously until toggle button is turned off
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + INITIAL_ALARM_DELAY, 10*1000, pendingIntent);
+
+
+//                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 5*1000, pendingIntent);
+
                 // alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (time * 1000), pendingIntent);
                 PrefConfig.saveSW(getApplicationContext(), 1);
             } else {
@@ -191,6 +200,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // Alarm rings continuously until toggle button is turned off
                 alarmManager2.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent2);
+                alarmManager2.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + INITIAL_ALARM_DELAY, 10*1000, pendingIntent2);
+//                alarmManager2.setRepeating(AlarmManager.ELAPSED_REALTIME, time, 60*1000, pendingIntent2);
+
+
                 // alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (time * 1000), pendingIntent);
                 PrefConfig.saveSW2(getApplicationContext(), 1);
             } else {
@@ -220,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // Alarm rings continuously until toggle button is turned off
                 alarmManager3.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent3);
+                alarmManager3.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + INITIAL_ALARM_DELAY, 10*1000, pendingIntent3);
+
                 // alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (time * 1000), pendingIntent);
                 PrefConfig.saveSW3(getApplicationContext(), 1);
             } else {

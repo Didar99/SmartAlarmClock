@@ -1,5 +1,7 @@
 package ne.iot.gulshatdiploma;
 
+import java.util.Random;
+
 public class QuizLogic {
     String equation;
     long solution;
@@ -9,13 +11,18 @@ public class QuizLogic {
         long num1 = Math.round(Math.random() * 100);
         long num2 = Math.round(Math.random() * 100);
 
-        String[] operators = {"+", "-"};
+        final int random = new Random().nextInt(11) + 10; // [0, 60] + 20 => [20, 80]
+        long num3 = random;
+        long num4 = random;
+
+        String[] operators = {"+", "*"};
         String operator = operators[ (int) Math.round(Math.random())];
 
         if (operator.equals("+")) {
             solution = num1 + num2;
-        } else {
-            solution = num1 - num2;
+        }
+        else {
+            solution = num3 * num4;
         }
 
         equation = String.format("%s %s %s", num1, operator, num2);

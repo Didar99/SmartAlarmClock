@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -25,5 +27,6 @@ public class AlarmReceiver2 extends BroadcastReceiver {
 
         Intent myIntent = new Intent(context, QRCodeActivity.class);
         context.startActivity(myIntent);
+
     }
 }

@@ -34,6 +34,7 @@ public class MathActivity extends AppCompatActivity {
     String result;
     MediaPlayer mp;
     boolean detected = false;
+    int currentStreak;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MathActivity extends AppCompatActivity {
 
         userInput = findViewById(R.id.userInput);
         displayResult = findViewById(R.id.displayResult);
-//        displayStreak = findViewById(R.id.displayStreak);
+        displayStreak = findViewById(R.id.displayStreak);
 
 
         mp= MediaPlayer.create(getApplicationContext(), R.raw.alarm);
@@ -63,7 +64,7 @@ public class MathActivity extends AppCompatActivity {
         quizzer = new QuizLogic();
         showNewEquation(quizzer);
 
-//        displayStreak.setText("Current Streak: 0");
+        displayStreak.setText("Çözülen mysal: 0");
 
         final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -77,17 +78,21 @@ public class MathActivity extends AppCompatActivity {
                 if (result.equals("Correct")) {
                     displayResult.setText("Dogry!");
 
-                    mp.stop();
-                    mp.release();
-                    PrefConfig.saveSW(getApplicationContext(), 0);
-                    finish();
+
+                    if (currentStreak == 2) {
+                        mp.stop();
+                        mp.release();
+                        PrefConfig.saveSW(getApplicationContext(), 0);
+                        finish();
+                    }
+
                 } else {
                     String solution = ": ".concat(Long.toString(quizzer.getSolution()));
                     displayResult.setText("Ýalňyş! " +solution);
                 }
 
-                int currentStreak = quizzer.getStreak();
-//                displayStreak.setText("Current Streak: ".concat(String.valueOf(currentStreak)));
+                currentStreak = quizzer.getStreak();
+                displayStreak.setText("Çözülen mysal: ".concat(String.valueOf(currentStreak)));
 
                 handler.post(new Runnable() {
                     @Override
