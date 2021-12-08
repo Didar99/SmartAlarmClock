@@ -26,6 +26,7 @@ public class AlarmReceiver2 extends BroadcastReceiver {
         Toast.makeText(context, "Berlen wagt geldi!", Toast.LENGTH_LONG).show();
 
         Intent myIntent = new Intent(context, QRCodeActivity.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(myIntent);
 
     }
